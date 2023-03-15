@@ -29,4 +29,5 @@ Flask, NLTK, Pandas, Numpy,
 SKlearn, Plotly, Pickle, sqlalchemy
 
 ### Screenshots
-![Screenshot - 1](https://github.com/DchemistRae/DisasterResponsePipeline/tree/master/screenshots/web-app1.png?raw=true)
+First Page
+![Screenshot - 1](https://github.com/DchemistRae/DisasterResponsePipeline/blob/master/screenshots/web-app1.png)
