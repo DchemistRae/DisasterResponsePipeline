@@ -1,6 +1,6 @@
 # Disaster Response Pipeline Project
 
-This is a data Engineering project, where a data pipeline was used to process messages data from major natural disasters around the world and stored in an SQLite database. Again using NLP (Natural Language Processing) pipelines, the prepared data is read from the SQLite database and classified into categores based on the need communicated by the sender using a machine learning algorith.
+This is a data Engineering project, where a data pipeline was used to process messages data from major natural disasters around the world and stored in an SQLite database. Again using NLP (Natural Language Processing) pipelines, the prepared data is read from the SQLite database and classified into categores based on the need communicated by the sender using a machine learning algorithm - RandomForestClassifier in this case.
 
 ### Data:
 Two csv files were used from Figure Eight (formerly Crowdflower) which crowdsourced the tagging and translation of messages
