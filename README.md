@@ -27,3 +27,6 @@ Two csv files were used from Figure Eight (formerly Crowdflower) which crowdsour
 
 Flask, NLTK, Pandas, Numpy, 
 SKlearn, Plotly, Pickle, sqlalchemy
+
+### Screenshots
+![Screenshot - 1](https://github.com/DchemistRae/DisasterResponsePipeline/tree/master/screenshots/web-app1.png?raw=true)
