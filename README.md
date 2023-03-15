@@ -31,3 +31,6 @@ SKlearn, Plotly, Pickle, sqlalchemy
 ### Screenshots
 First Page
 ![Screenshot - 1](https://github.com/DchemistRae/DisasterResponsePipeline/blob/master/screenshots/web-app1.png)
+
+Second Page
+![Screenshot - 1](https://github.com/DchemistRae/DisasterResponsePipeline/blob/master/screenshots/web-app2.png)
