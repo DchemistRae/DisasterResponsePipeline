@@ -46,15 +46,15 @@ def clean_data(df):
     for column in categories:
         categories[column] = categories[column].str[-1:]
         categories[column] = pd.to_numeric(categories[column])
-
-    # remove rows with non binary values
-    categories = categories[categories['related'] != 2]
         
     # drop the original categories column from `df`
     df.drop('categories', axis = 'columns', inplace = True)
     
     # concatenate the original dataframe with the new `categories` dataframe
     df = pd.concat([df, categories], axis=1)
+
+    # remove rows with non binary values
+    df = df[df['related'] != 2]
     
     # drop duplicates
     df.drop_duplicates(inplace = True)
