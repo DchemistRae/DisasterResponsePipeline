@@ -6,7 +6,6 @@ import pickle
 from sqlalchemy import create_engine
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
-
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from sklearn.multioutput import MultiOutputClassifier
@@ -14,12 +13,22 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 from sklearn.model_selection import GridSearchCV
-#more imports
 import nltk
 nltk.download(['punkt', 'wordnet', 'averaged_perceptron_tagger'])
 
 
 def load_data(database_filepath):
+    '''
+    load data from SQLite database and split into predictors and target variable
+
+    input
+    database_filepath   filepath to database containing training data
+
+    Returns
+    X   predictor variable or messages
+    Y   Target variable or categories
+    category_name   column names of target variables
+    '''
     engine = create_engine('sqlite:///{}'.format(database_filepath))
     df = pd.read_sql_table('processed_data', engine)
     Y = df.iloc[:,4:]
@@ -29,6 +38,15 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    '''
+    takes in text messages, apply a number of text processing to them and return word tokens formed form the text
+
+    input
+    text   input message to be normalized & tokenized
+
+    Returns
+    clean_tokens  final word tokens
+    '''
      # normalize, lemmatize and clean
     
     tokens = word_tokenize(text)
@@ -42,16 +60,41 @@ def tokenize(text):
 
 
 def build_model():
-    
+    '''
+    Create pipelines for bulding and tuning model 
+
+    input
+    None
+
+    Returns
+    gridcv  model building and tuning pipeline
+    '''
     pipeline = Pipeline([
     ('vect', CountVectorizer(tokenizer=tokenize)),
     ('tfidf', TfidfTransformer()),
-    ('clf', MultiOutputClassifier(RandomForestClassifier(min_samples_split = 2, n_estimators = 20)))
+    ('clf', MultiOutputClassifier(RandomForestClassifier()))
 ])
-    return pipeline
+    parameters = {
+            'clf__estimator__n_estimators': [10, 20],
+            'clf__estimator__min_samples_split': [2, 4]}
+
+    grid_cv = GridSearchCV(pipeline, param_grid=parameters)
+
+    return grid_cv
 
 
 def evaluate_model(model, X_test, Y_test):
+    '''
+    Evaluates the built model displays result of quality metrics
+
+    input
+    model   model to be evaluated
+    X_test  predictor variable for evaluating model
+    Y_test  target variables or categories for evaluating model
+
+    Returns
+    None
+    '''
     # predict to test using best params
     y_pred = model.predict(X_test)
     for i, column in enumerate(Y_test):
@@ -63,6 +106,16 @@ def evaluate_model(model, X_test, Y_test):
         
 
 def save_model(model, model_filepath):
+    '''
+    Saves the final model as pickle file
+
+    input
+    model   model to be saved
+    model_filepath  directory for saving model
+
+    Returns
+    None
+    '''
     # save model
     pickle.dump(model, open(model_filepath, "wb"))
     pass
@@ -78,7 +131,7 @@ def main():
         print('Building model...')
         model = build_model()
         
-        print('Training model...might take a bit of time .....')
+        print('Training model...might take a while .....')
         model.fit(X_train, Y_train)
         
         print('Evaluating model...')
